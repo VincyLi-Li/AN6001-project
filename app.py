@@ -1,12 +1,11 @@
-from flask import Flask, send_file
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    # 直接返回同一目录下的 index.html 文件
-    return send_file('index.html')
+@app.route("/")
+def home():
+    return render_template("index.html")  # ✅ Flask 自动在 templates/ 目录查找
 
-if __name__ == '__main__':
-    # 启动 Flask 服务器，调试模式下可自动重启
-    app.run(debug=True, host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(debug=True)
+
