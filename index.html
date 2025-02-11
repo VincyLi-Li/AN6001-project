@@ -1,209 +1,27 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>金融仪表板 - 账户警报</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <title>Financial Dashboard - Account Alerts</title>
 </head>
 <body>
-    <h2>账户警报系统</h2>
-    <button onclick="connectWallet()">连接钱包</button>
+    <h2>Account Alert System</h2>
+    <button onclick="connectWallet()">Connect Wallet</button>
     <br><br>
-    <label>交易金额（ETH）：</label>
+    <label>Transaction Amount (ETH):</label>
     <input type="number" id="amount" step="0.01">
-    <button onclick="recordTransaction()">提交交易</button>
+    <button onclick="recordTransaction()">Submit Transaction</button>
     <br><br>
-    <h3>警报日志：</h3>
+    <h3>Alert Logs:</h3>
     <div id="alerts"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.1/web3.min.js"></script>
     <script>
         let contract;
         let account;
-        const contractAddress = "0x6D361846A89A6D0EEb442aB4C14B8A5f271f6A5E"; // 替换为实际部署的地址
-        const abi = [
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "reason",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "timestamp",
-				"type": "uint256"
-			}
-		],
-		"name": "AlertTriggered",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "recordTransaction",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_maxAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "setMaxAmount",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_maxFrequency",
-				"type": "uint256"
-			}
-		],
-		"name": "setMaxFrequency",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "startHour",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "endHour",
-				"type": "uint256"
-			}
-		],
-		"name": "setTradingHours",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "maxAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "maxFrequency",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "normalEndHour",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "normalStartHour",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "userTransactions",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "timestamp",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]; // 替换为你的 ABI
+        const contractAddress = "0x6D361846A89A6D0EEb442aB4C14B8A5f271f6A5E";
+        const abi = [ /* ABI JSON */ ];
 
         async function connectWallet() {
             if (window.ethereum) {
@@ -212,30 +30,40 @@
                 const accounts = await web3.eth.getAccounts();
                 account = accounts[0];
                 contract = new web3.eth.Contract(abi, contractAddress);
-                console.log("钱包已连接:", account);
+                console.log("Wallet connected:", account);
             } else {
-                alert("请安装 MetaMask");
+                alert("Please install MetaMask");
             }
         }
 
         async function recordTransaction() {
             const amount = document.getElementById("amount").value;
             if (!contract || !account) {
-                alert("请先连接钱包");
+                alert("Please connect your wallet first");
                 return;
             }
 
-            await contract.methods.recordTransaction(Web3.utils.toWei(amount, "ether")).send({ from: account });
-            alert("交易已提交");
+            try {
+                const weiAmount = Web3.utils.toWei(amount, "ether");
+                await contract.methods.recordTransaction(weiAmount).send({ from: account });
+                alert("Transaction submitted successfully");
+            } catch (error) {
+                console.error("Transaction failed:", error);
+                alert("Transaction failed");
+            }
         }
 
         async function listenToAlerts() {
+            if (!contract) return;
+
             contract.events.AlertTriggered({}).on("data", (event) => {
-                const log = `${event.returnValues.reason} (时间: ${new Date(event.returnValues.timestamp * 1000).toLocaleString()})`;
-                document.getElementById("alerts").innerHTML += `<p>${log}</p>`;
+                const log = event.returnValues.reason + " (Time: " + new Date(event.returnValues.timestamp * 1000).toLocaleString() + ")";
+                document.getElementById("alerts").innerHTML += "<p>" + log + "</p>";
+            }).on("error", (error) => {
+                console.error("Error listening to events:", error);
             });
         }
-        
+
         window.onload = listenToAlerts;
     </script>
 </body>
