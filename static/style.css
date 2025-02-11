@@ -14,7 +14,7 @@ body {
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    max-width: 500px;
+    max-width: 400px;
     width: 100%;
     text-align: center;
     display: flex;
@@ -33,7 +33,7 @@ label {
     color: #555;
     display: block;
     margin-bottom: 8px;
-    text-align: left;
+    text-align: center;
     width: 100%;
 }
 
@@ -67,7 +67,7 @@ button:hover {
     margin-top: 20px;
     font-size: 16px;
     color: #d9534f;
-    text-align: left;
+    text-align: center;
     width: 100%;
 }
 
